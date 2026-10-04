@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Movie App</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111;
+            color: white;
+        }
+
+        header {
+            background: #1c1c1c;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            color: #e50914;
+        }
+
+        .search {
+            padding: 20px;
+            text-align: center;
+        }
+
+        input {
+            width: 85%;
+            padding: 14px;
+            border-radius: 8px;
+            border: none;
+            font-size: 16px;
+        }
+
+        .movies {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 15px;
+        }
+
+        .movie {
+            background: #1c1c1c;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .movie img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+        }
+
+        .movie h3 {
+            padding: 10px;
+            margin: 0;
+        }
+
+        .movie p {
+            padding: 0 10px 10px;
+            color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🎬 Movie App</h1>
+    </header>
+
+    <div class="search">
+        <input type="text" placeholder="Search movies...">
+    </div>
+
+    <div class="movies">
+
+        <div class="movie">
+            <img src="https://via.placeholder.com/300x450" alt="Movie">
+            <h3>Movie One</h3>
+            <p>⭐ 8.5</p>
+        </div>
+
+        <div class="movie">
+            <img src="https://via.placeholder.com/300x450" alt="Movie">
+            <h3>Movie Two</h3>
+            <p>⭐ 8.2</p>
+        </div>
+
+    </div>
+
+</body>
+</html>
