@@ -1,99 +1,778 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Movie App</title>
+    <title>MHD - Movie Hub</title>
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #111;
-            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #080808;
+            color: #ffffff;
+            padding-bottom: 80px;
         }
 
+        /* HEADER */
         header {
-            background: #1c1c1c;
-            padding: 20px;
-            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 8, 8, 0.96);
+            border-bottom: 1px solid #222;
+            padding: 17px 18px;
         }
 
-        header h1 {
-            margin: 0;
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
             color: #e50914;
         }
 
-        .search {
-            padding: 20px;
-            text-align: center;
+        .menu {
+            font-size: 25px;
+            color: #ffffff;
         }
 
-        input {
-            width: 85%;
-            padding: 14px;
-            border-radius: 8px;
-            border: none;
-            font-size: 16px;
+        /* HERO */
+        .hero {
+            margin: 18px;
+            min-height: 360px;
+            border-radius: 18px;
+            overflow: hidden;
+            position: relative;
+
+            background:
+                linear-gradient(
+                    to top,
+                    #080808 5%,
+                    rgba(8, 8, 8, 0.45) 55%,
+                    rgba(8, 8, 8, 0.1)
+                ),
+                url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=85");
+
+            background-size: cover;
+            background-position: center;
         }
 
-        .movies {
+        .hero-content {
+            position: absolute;
+            bottom: 25px;
+            left: 20px;
+            right: 20px;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background: #e50914;
+            padding: 5px 9px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .hero h1 {
+            font-size: 31px;
+            line-height: 1.1;
+            margin-bottom: 9px;
+        }
+
+        .hero-info {
+            color: #c7c7c7;
+            font-size: 13px;
+            margin-bottom: 13px;
+        }
+
+        .hero-description {
+            color: #d0d0d0;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 17px;
+        }
+
+        .watch-button {
+            display: inline-block;
+            text-decoration: none;
+            background: #e50914;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 7px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* SEARCH */
+        .search-area {
+            padding: 2px 18px 20px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 15px 16px;
+            background: #171717;
+            border: 1px solid #292929;
+            border-radius: 10px;
+            outline: none;
+            color: white;
+            font-size: 15px;
+        }
+
+        .search-box::placeholder {
+            color: #858585;
+        }
+
+        /* SECTION */
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 18px;
+            margin-bottom: 14px;
+        }
+
+        .section-title {
+            font-size: 21px;
+            font-weight: 800;
+        }
+
+        .see-all {
+            color: #e50914;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* MOVIE GRID */
+        .movie-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding: 15px;
+            gap: 14px;
+            padding: 0 18px;
         }
 
-        .movie {
-            background: #1c1c1c;
-            border-radius: 10px;
+        .movie-card {
+            background: #141414;
+            border-radius: 11px;
             overflow: hidden;
+            border: 1px solid #242424;
+            transition: transform 0.2s;
         }
 
-        .movie img {
+        .movie-card:active {
+            transform: scale(0.97);
+        }
+
+        .poster {
             width: 100%;
-            height: 240px;
+            height: 250px;
             object-fit: cover;
+            display: block;
         }
 
-        .movie h3 {
-            padding: 10px;
-            margin: 0;
+        .movie-details {
+            padding: 11px;
         }
 
-        .movie p {
-            padding: 0 10px 10px;
-            color: #aaa;
+        .movie-title {
+            font-size: 15px;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 7px;
+        }
+
+        .movie-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #929292;
+            font-size: 12px;
+        }
+
+        .rating {
+            color: #ffc107;
+            font-weight: bold;
+        }
+
+        /* CATEGORIES */
+        .categories {
+            display: flex;
+            gap: 9px;
+            overflow-x: auto;
+            padding: 0 18px;
+            scrollbar-width: none;
+        }
+
+        .categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .category {
+            flex-shrink: 0;
+            padding: 9px 15px;
+            background: #171717;
+            border: 1px solid #292929;
+            border-radius: 20px;
+            color: #bdbdbd;
+            font-size: 12px;
+        }
+
+        .category.active {
+            background: #e50914;
+            border-color: #e50914;
+            color: white;
+        }
+
+        /* BOTTOM NAVIGATION */
+        .bottom-nav {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 68px;
+            background: rgba(15, 15, 15, 0.98);
+            border-top: 1px solid #282828;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 200;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #777;
+            font-size: 10px;
+        }
+
+        .nav-icon {
+            display: block;
+            font-size: 21px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item.active {
+            color: #e50914;
+        }
+
+        /* EMPTY SEARCH */
+        #noResults {
+            display: none;
+            text-align: center;
+            padding: 30px 18px;
+            color: #888;
+        }
+
+        /* DESKTOP */
+        @media (min-width: 700px) {
+
+            .movie-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .hero {
+                min-height: 500px;
+            }
+
+            .poster {
+                height: 330px;
+            }
         }
     </style>
 </head>
 
+
 <body>
 
+    <!-- HEADER -->
+
     <header>
-        <h1>🎬 Movie App</h1>
+
+        <div class="header-content">
+
+            <div class="logo">
+                M<span>H</span>D
+            </div>
+
+            <div class="menu">
+                ☰
+            </div>
+
+        </div>
+
     </header>
 
-    <div class="search">
-        <input type="text" placeholder="Search movies...">
-    </div>
 
-    <div class="movies">
+    <!-- HERO -->
 
-        <div class="movie">
-            <img src="https://via.placeholder.com/300x450" alt="Movie">
-            <h3>Movie One</h3>
-            <p>⭐ 8.5</p>
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-tag">
+                #1 MOVIE HUB
+            </div>
+
+            <h1>
+                Discover Your<br>
+                Next Movie
+            </h1>
+
+            <div class="hero-info">
+                ⭐ 8.7 &nbsp; • &nbsp; 2026 &nbsp; • &nbsp; Action
+            </div>
+
+            <p class="hero-description">
+                Explore trending movies, popular films and
+                unforgettable stories all in one place.
+            </p>
+
+            <a href="#trending" class="watch-button">
+                ▶ Explore Now
+            </a>
+
         </div>
 
-        <div class="movie">
-            <img src="https://via.placeholder.com/300x450" alt="Movie">
-            <h3>Movie Two</h3>
-            <p>⭐ 8.2</p>
-        </div>
+    </section>
+
+
+    <!-- SEARCH -->
+
+    <div class="search-area">
+
+        <input
+            id="searchInput"
+            class="search-box"
+            type="text"
+            placeholder="🔍 Search movies..."
+            onkeyup="searchMovies()"
+        >
 
     </div>
+
+
+    <!-- CATEGORIES -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-title">
+                Genres
+            </div>
+
+        </div>
+
+        <div class="categories">
+
+            <div class="category active">
+                All
+            </div>
+
+            <div class="category">
+                Action
+            </div>
+
+            <div class="category">
+                Thriller
+            </div>
+
+            <div class="category">
+                Drama
+            </div>
+
+            <div class="category">
+                Comedy
+            </div>
+
+            <div class="category">
+                Sci-Fi
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TRENDING -->
+
+    <section class="section" id="trending">
+
+        <div class="section-header">
+
+            <div class="section-title">
+                🔥 Trending
+            </div>
+
+            <div class="see-all">
+                SEE ALL
+            </div>
+
+        </div>
+
+
+        <div class="movie-grid">
+
+
+            <!-- MOVIE 1 -->
+
+            <div class="movie-card">
+
+                <img
+                    class="poster"
+                    src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=85"
+                    alt="Movie"
+                >
+
+                <div class="movie-details">
+
+                    <div class="movie-title">
+                        Dark Horizon
+                    </div>
+
+                    <div class="movie-meta">
+
+                        <span class="rating">
+                            ⭐ 8.7
+                        </span>
+
+                        <span>
+                            2026
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MOVIE 2 -->
+
+            <div class="movie-card">
+
+                <img
+                    class="poster"
+                    src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=600&q=85"
+                    alt="Movie"
+                >
+
+                <div class="movie-details">
+
+                    <div class="movie-title">
+                        Last Mission
+                    </div>
+
+                    <div class="movie-meta">
+
+                        <span class="rating">
+                            ⭐ 8.5
+                        </span>
+
+                        <span>
+                            2026
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MOVIE 3 -->
+
+            <div class="movie-card">
+
+                <img
+                    class="poster"
+                    src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=600&q=85"
+                    alt="Movie"
+                >
+
+                <div class="movie-details">
+
+                    <div class="movie-title">
+                        Lost In Time
+                    </div>
+
+                    <div class="movie-meta">
+
+                        <span class="rating">
+                            ⭐ 8.3
+                        </span>
+
+                        <span>
+                            2025
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MOVIE 4 -->
+
+            <div class="movie-card">
+
+                <img
+                    class="poster"
+                    src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=85"
+                    alt="Movie"
+                >
+
+                <div class="movie-details">
+
+                    <div class="movie-title">
+                        Midnight Story
+                    </div>
+
+                    <div class="movie-meta">
+
+                        <span class="rating">
+                            ⭐ 8.1
+                        </span>
+
+                        <span>
+                            2025
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- POPULAR -->
+
+    <section class="section">
+
+        <div class="section-header">
+
+            <div class="section-title">
+                🎬 Popular Movies
+            </div>
+
+            <div class="see-all">
+                SEE ALL
+            </div>
+
+        </div>
+
+
+        <div class="movie-grid">
+
+
+            <div class="movie-card">
+
+                <img
+                    class="poster"
+                    src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=85"
+                    alt="Movie"
+                >
+
+                <div class="movie-details">
+
+                    <div class="movie-title">
+                        The Journey
+                    </div>
+
+                    <div class="movie-meta">
+
+                        <span class="rating">
+                            ⭐ 8.9
+                        </span>
+
+                        <span>
+                            2025
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="movie-card">
+
+                <img
+                    class="poster"
+                    src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=85"
+                    alt="Movie"
+                >
+
+                <div class="movie-details">
+
+                    <div class="movie-title">
+                        Final Night
+                    </div>
+
+                    <div class="movie-meta">
+
+                        <span class="rating">
+                            ⭐ 8.6
+                        </span>
+
+                        <span>
+                            2024
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <div id="noResults">
+        😔 No movies found
+    </div>
+
+
+    <!-- BOTTOM NAVIGATION -->
+
+    <nav class="bottom-nav">
+
+        <div class="nav-item active">
+
+            <span class="nav-icon">
+                🏠
+            </span>
+
+            Home
+
+        </div>
+
+
+        <div class="nav-item">
+
+            <span class="nav-icon">
+                🔍
+            </span>
+
+            Search
+
+        </div>
+
+
+        <div class="nav-item">
+
+            <span class="nav-icon">
+                🔥
+            </span>
+
+            Trending
+
+        </div>
+
+
+        <div class="nav-item">
+
+            <span class="nav-icon">
+                ⭐
+            </span>
+
+            Favorites
+
+        </div>
+
+    </nav>
+
+
+    <!-- SEARCH FUNCTION -->
+
+    <script>
+
+        function searchMovies() {
+
+            let input =
+                document
+                .getElementById("searchInput")
+                .value
+                .toLowerCase();
+
+            let movies =
+                document
+                .querySelectorAll(".movie-card");
+
+            let found = false;
+
+            movies.forEach(function(movie) {
+
+                let title =
+                    movie
+                    .querySelector(".movie-title")
+                    .innerText
+                    .toLowerCase();
+
+                if (title.includes(input)) {
+
+                    movie.style.display = "block";
+
+                    found = true;
+
+                } else {
+
+                    movie.style.display = "none";
+
+                }
+
+            });
+
+
+            let noResults =
+                document.getElementById("noResults");
+
+            if (!found && input !== "") {
+
+                noResults.style.display = "block";
+
+            } else {
+
+                noResults.style.display = "none";
+
+            }
+
+        }
+
+    </script>
 
 </body>
+
 </html>
