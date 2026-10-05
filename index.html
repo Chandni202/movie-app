@@ -2,724 +2,777 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>MHD - Movie Hub</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+<title>Movie Hub MHD</title>
+
+<meta name="theme-color" content="#050505">
 
 <style>
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-html,body{
-  background:#070707;
-  color:#fff;
-  font-family:Arial,Helvetica,sans-serif;
+html{
+    scroll-behavior:smooth;
 }
 
 body{
-  min-height:100vh;
-  padding-bottom:75px;
+    background:#050505;
+    color:#fff;
+    font-family:Arial,Helvetica,sans-serif;
+    overflow-x:hidden;
 }
 
 button,input{
-  font-family:inherit;
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
 
-/* ================= HEADER ================= */
+::-webkit-scrollbar{
+    width:4px;
+    height:4px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#444;
+    border-radius:20px;
+}
+
+/* HEADER */
 
 .header{
-  padding:15px 15px 8px;
-  background:#070707;
+    position:sticky;
+    top:0;
+    z-index:1000;
+    height:62px;
+    display:flex;
+    align-items:center;
+    padding:0 16px;
+    background:rgba(5,5,5,.96);
+    border-bottom:1px solid #1d1d1d;
 }
 
 .logo{
-  font-size:28px;
-  font-weight:900;
-  letter-spacing:-1px;
-  margin-bottom:14px;
+    font-size:22px;
+    font-weight:900;
+    letter-spacing:1.5px;
+    white-space:nowrap;
 }
 
-.logo .red{
-  color:#e50914;
+.logo span{
+    color:#e50914;
+}
+
+/* SEARCH */
+
+.search-area{
+    padding:13px 16px 8px;
+    background:#050505;
 }
 
 .search-box{
-  width:100%;
-  max-width:600px;
-  height:45px;
-  background:#191919;
-  border:1px solid #333;
-  border-radius:25px;
-  padding:0 18px;
-  color:#fff;
-  outline:none;
-  font-size:15px;
+    width:78%;
+    max-width:620px;
+    margin:auto;
+    position:relative;
 }
 
-.search-box:focus{
-  border-color:#777;
+.search-box input{
+    width:100%;
+    height:45px;
+    border-radius:25px;
+    border:1px solid #333;
+    background:#171717;
+    color:white;
+    padding:0 48px 0 18px;
+    outline:none;
+    font-size:15px;
 }
 
-/* ================= FEATURED ================= */
-
-.feature-area{
-  padding:8px 12px 0;
+.search-box input:focus{
+    border-color:#777;
 }
 
-.feature{
-  position:relative;
-  width:100%;
-  height:32vh;
-  min-height:235px;
-  max-height:350px;
-  overflow:hidden;
-  border-radius:12px;
-  background:#151515;
+.search-icon{
+    position:absolute;
+    right:17px;
+    top:50%;
+    transform:translateY(-50%);
+    font-size:19px;
 }
 
-.feature-track{
-  display:flex;
-  width:100%;
-  height:100%;
-  transition:transform .8s ease;
+/* MAIN */
+
+main{
+    padding-bottom:80px;
 }
 
-.feature-item{
-  position:relative;
-  min-width:100%;
-  height:100%;
-  background-size:cover;
-  background-position:center;
+.page{
+    display:none;
 }
 
-.feature-item:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(0,0,0,.88),
-      rgba(0,0,0,.18)
-    ),
-    linear-gradient(
-      0deg,
-      #070707 0%,
-      transparent 55%
-    );
+.page.active{
+    display:block;
 }
 
-.feature-text{
-  position:absolute;
-  left:18px;
-  bottom:20px;
-  z-index:2;
-  width:62%;
+/* HERO */
+
+.hero{
+    height:320px;
+    margin-top:7px;
+    position:relative;
+    overflow:hidden;
 }
 
-.feature-title{
-  font-size:23px;
-  font-weight:800;
-  margin-bottom:7px;
+.hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:
+        linear-gradient(to bottom,transparent 45%,#050505 100%),
+        linear-gradient(to right,#050505 0%,transparent 25%,transparent 75%,#050505 100%);
+    z-index:10;
 }
 
-.feature-info{
-  color:#ddd;
-  font-size:12px;
+.hero-track{
+    height:100%;
+    position:relative;
 }
 
-.feature-dots{
-  position:absolute;
-  right:13px;
-  bottom:15px;
-  z-index:5;
-  display:flex;
-  gap:5px;
+.hero-card{
+    position:absolute;
+    top:15px;
+    left:50%;
+    width:190px;
+    height:275px;
+    transform:translateX(-50%) scale(.72);
+    opacity:0;
+    border-radius:12px;
+    overflow:hidden;
+    transition:
+        transform .55s ease,
+        opacity .55s ease,
+        filter .55s ease;
+    box-shadow:0 15px 45px rgba(0,0,0,.75);
+    background:#151515;
 }
 
-.feature-dot{
-  width:6px;
-  height:6px;
-  background:#777;
-  border-radius:50%;
+.hero-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
 }
 
-.feature-dot.active{
-  width:17px;
-  background:#fff;
-  border-radius:5px;
+.hero-card::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to top,rgba(0,0,0,.65),transparent 55%);
 }
 
-/* ================= CONTENT ================= */
-
-.content{
-  padding:3px 14px 30px;
+.hero-card.center{
+    transform:translateX(-50%) scale(1);
+    opacity:1;
+    z-index:5;
 }
+
+.hero-card.left{
+    transform:translateX(-115%) scale(.78);
+    opacity:.58;
+    z-index:3;
+}
+
+.hero-card.right{
+    transform:translateX(15%) scale(.78);
+    opacity:.58;
+    z-index:3;
+}
+
+.hero-card.far-left{
+    transform:translateX(-165%) scale(.62);
+    opacity:.25;
+    z-index:2;
+}
+
+.hero-card.far-right{
+    transform:translateX(65%) scale(.62);
+    opacity:.25;
+    z-index:2;
+}
+
+.hero-title{
+    position:absolute;
+    z-index:20;
+    bottom:18px;
+    left:20px;
+    right:20px;
+    text-align:center;
+    font-size:19px;
+    font-weight:800;
+    text-shadow:0 3px 10px #000;
+}
+
+/* SECTIONS */
 
 .section{
-  margin-top:24px;
+    margin-top:20px;
+}
+
+.section-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 15px 10px;
 }
 
 .section-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:11px;
+    font-size:19px;
+    font-weight:800;
 }
 
-.section-title h2{
-  font-size:18px;
-  font-weight:800;
-}
-
-.section-title span{
-  color:#777;
-  font-size:20px;
+.see-all{
+    color:#aaa;
+    font-size:12px;
 }
 
 .movie-row{
-  display:flex;
-  gap:10px;
-  overflow-x:auto;
-  padding-bottom:5px;
-  scroll-behavior:smooth;
+    display:flex;
+    gap:11px;
+    overflow-x:auto;
+    padding:0 15px 7px;
 }
 
-.movie-row::-webkit-scrollbar{
-  display:none;
+.movie-card{
+    flex:0 0 130px;
+    cursor:pointer;
 }
 
-.movie{
-  flex:0 0 120px;
-  cursor:pointer;
-  transition:.2s;
+.poster{
+    width:130px;
+    height:190px;
+    border-radius:8px;
+    overflow:hidden;
+    background:#161616;
+    position:relative;
 }
 
-.movie:active{
-  transform:scale(.96);
+.poster img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
 }
 
-.movie-poster{
-  width:120px;
-  height:178px;
-  object-fit:cover;
-  border-radius:7px;
-  display:block;
-  background:#171717;
+.rating{
+    position:absolute;
+    left:6px;
+    bottom:6px;
+    padding:3px 6px;
+    border-radius:5px;
+    background:rgba(0,0,0,.85);
+    color:#ffd700;
+    font-size:11px;
+    font-weight:bold;
 }
 
 .movie-name{
-  font-size:12px;
-  font-weight:bold;
-  margin-top:6px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+    margin-top:7px;
+    font-size:13px;
+    line-height:17px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
-.movie-info{
-  font-size:10px;
-  color:#888;
-  margin-top:3px;
+.movie-year{
+    color:#888;
+    font-size:11px;
+    margin-top:2px;
 }
 
-.star{
-  color:#ffc107;
-}
-
-/* ================= LOADING ================= */
+/* LOADING */
 
 .loading{
-  text-align:center;
-  padding:60px 20px;
-  color:#999;
+    padding:30px 20px;
+    text-align:center;
+    color:#aaa;
 }
 
-.loader{
-  display:inline-block;
-  width:35px;
-  height:35px;
-  border:4px solid #333;
-  border-top-color:#e50914;
-  border-radius:50%;
-  animation:rotate .8s linear infinite;
-  margin-bottom:12px;
+.spinner{
+    width:30px;
+    height:30px;
+    border:3px solid #333;
+    border-top-color:#e50914;
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+    margin:0 auto 10px;
 }
 
-@keyframes rotate{
-  to{
-    transform:rotate(360deg);
-  }
+@keyframes spin{
+    to{transform:rotate(360deg);}
 }
 
-.error{
-  margin:20px 5px;
-  padding:18px;
-  background:#171717;
-  border:1px solid #7b1111;
-  border-radius:8px;
-  color:#ff7777;
-  line-height:1.6;
-  font-size:13px;
+/* ERROR */
+
+.error-box{
+    margin:20px 15px;
+    padding:18px;
+    border-radius:10px;
+    background:#171717;
+    border:1px solid #522;
+    text-align:center;
+    color:#ddd;
 }
+
+.error-box strong{
+    color:#ff4040;
+}
+
+.retry-btn{
+    margin-top:12px;
+    background:#e50914;
+    border:0;
+    color:white;
+    padding:10px 20px;
+    border-radius:7px;
+}
+
+/* SEARCH PAGE */
+
+.search-results{
+    padding:15px;
+}
+
+.search-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px 9px;
+}
+
+.search-grid .movie-card{
+    width:100%;
+}
+
+.search-grid .poster{
+    width:100%;
+    height:auto;
+    aspect-ratio:2/3;
+}
+
+/* FAVORITES */
 
 .empty{
-  padding:50px 15px;
-  text-align:center;
-  color:#777;
+    text-align:center;
+    padding:60px 20px;
+    color:#777;
 }
 
-/* ================= BOTTOM NAV ================= */
+/* BOTTOM NAV */
 
 .bottom-nav{
-  position:fixed;
-  z-index:100;
-  left:0;
-  right:0;
-  bottom:0;
-  height:68px;
-  background:rgba(12,12,12,.98);
-  border-top:1px solid #282828;
-  display:flex;
-  justify-content:space-around;
-  align-items:center;
+    position:fixed;
+    z-index:2000;
+    left:0;
+    right:0;
+    bottom:0;
+    height:64px;
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    background:rgba(8,8,8,.97);
+    border-top:1px solid #222;
 }
 
-.nav{
-  background:none;
-  border:none;
-  color:#777;
-  font-size:10px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
+.nav-btn{
+    border:0;
+    background:none;
+    color:#777;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:4px;
+    font-size:11px;
 }
 
-.nav-icon{
-  font-size:21px;
+.nav-btn span{
+    font-size:20px;
 }
 
-.nav.active{
-  color:#fff;
+.nav-btn.active{
+    color:#fff;
 }
 
-.nav.active .nav-icon{
-  color:#e50914;
+.nav-btn.active span{
+    color:#e50914;
 }
 
-/* ================= DETAILS ================= */
+/* MODAL */
 
-.details-modal{
-  position:fixed;
-  z-index:500;
-  inset:0;
-  background:#090909;
-  overflow-y:auto;
-  display:none;
+.modal{
+    display:none;
+    position:fixed;
+    z-index:5000;
+    inset:0;
+    background:rgba(0,0,0,.94);
+    overflow-y:auto;
 }
 
-.details-modal.open{
-  display:block;
+.modal.show{
+    display:block;
 }
 
-.details-page{
-  max-width:720px;
-  margin:auto;
-  min-height:100vh;
-  background:#0c0c0c;
+.modal-close{
+    position:fixed;
+    z-index:5100;
+    top:12px;
+    right:15px;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:1px solid #555;
+    background:rgba(0,0,0,.75);
+    color:#fff;
+    font-size:23px;
 }
 
-.close-button{
-  position:absolute;
-  top:14px;
-  right:14px;
-  z-index:10;
-  width:38px;
-  height:38px;
-  border:none;
-  border-radius:50%;
-  background:rgba(0,0,0,.75);
-  color:white;
-  font-size:22px;
+.details{
+    max-width:850px;
+    margin:auto;
+    padding-bottom:50px;
 }
 
 .details-backdrop{
-  height:290px;
-  width:100%;
-  background-size:cover;
-  background-position:center;
-  position:relative;
+    height:230px;
+    position:relative;
+    overflow:hidden;
+    background:#111;
 }
 
-.details-backdrop:after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    linear-gradient(
-      to bottom,
-      transparent 30%,
-      #0c0c0c 100%
-    );
+.details-backdrop img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    opacity:.5;
+    filter:blur(1px);
 }
 
-.details-content{
-  position:relative;
-  margin-top:-75px;
-  z-index:2;
-  padding:0 17px 35px;
+.details-backdrop::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(to bottom,transparent 10%,#050505 100%);
 }
 
-.poster-info{
-  display:flex;
-  gap:14px;
+.details-main{
+    display:flex;
+    gap:15px;
+    padding:0 17px;
+    margin-top:-90px;
+    position:relative;
+    z-index:5;
 }
 
-.big-poster{
-  width:135px;
-  height:200px;
-  object-fit:cover;
-  border-radius:8px;
-  background:#181818;
+.details-poster{
+    width:145px;
+    height:218px;
+    flex-shrink:0;
+    border-radius:9px;
+    overflow:hidden;
+    background:#151515;
+}
+
+.details-poster img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.details-info{
+    padding-top:65px;
 }
 
 .details-title{
-  font-size:23px;
-  font-weight:900;
-  margin-top:8px;
-  line-height:1.15;
+    font-size:23px;
+    font-weight:900;
+    line-height:28px;
 }
 
 .details-meta{
-  color:#aaa;
-  font-size:12px;
-  line-height:1.8;
-  margin-top:8px;
+    color:#aaa;
+    font-size:12px;
+    margin-top:7px;
 }
 
 .details-rating{
-  color:#ffc107;
-  font-size:14px;
-  margin-top:6px;
+    color:#ffd700;
+    font-weight:bold;
+    margin-top:10px;
 }
 
-.description{
-  margin-top:18px;
-  color:#ccc;
-  font-size:13px;
-  line-height:1.65;
+.details-actions{
+    display:flex;
+    gap:8px;
+    margin-top:12px;
+    flex-wrap:wrap;
 }
 
-.action-row{
-  display:flex;
-  gap:8px;
-  margin-top:16px;
-  flex-wrap:wrap;
+.action-btn{
+    border:0;
+    border-radius:7px;
+    padding:9px 12px;
+    font-size:12px;
+    font-weight:bold;
 }
 
-.action-button{
-  border:none;
-  border-radius:7px;
-  padding:12px 15px;
-  font-weight:bold;
+.watch-btn{
+    background:#e50914;
+    color:white;
 }
 
-.watch-button{
-  background:#fff;
-  color:#000;
+.fav-btn{
+    background:#292929;
+    color:white;
 }
 
-.favorite-button{
-  background:#e50914;
-  color:#fff;
+.details-content{
+    padding:20px 17px;
 }
 
-.watch-section{
-  margin-top:25px;
+.detail-heading{
+    font-size:17px;
+    font-weight:800;
+    margin:20px 0 9px;
 }
 
-.watch-section h3{
-  font-size:17px;
-  margin-bottom:10px;
+.overview{
+    color:#ccc;
+    font-size:14px;
+    line-height:22px;
 }
 
 .provider{
-  display:inline-block;
-  background:#181818;
-  border:1px solid #333;
-  border-radius:7px;
-  padding:9px 11px;
-  margin:3px;
-  font-size:12px;
+    padding:13px;
+    border-radius:8px;
+    background:#171717;
+    color:#ddd;
+    font-size:13px;
 }
 
-.review-box{
-  margin-top:22px;
-  background:#151515;
-  border-radius:8px;
-  padding:15px;
-  color:#bbb;
-  font-size:12px;
-  line-height:1.6;
+.provider a{
+    color:#fff;
+    text-decoration:none;
 }
 
-/* ================= DESKTOP ================= */
+.review{
+    padding:13px;
+    background:#151515;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+.review-author{
+    color:#fff;
+    font-weight:bold;
+    font-size:13px;
+    margin-bottom:7px;
+}
+
+.review-text{
+    color:#aaa;
+    font-size:12px;
+    line-height:18px;
+}
+
+/* TMDB */
+
+.tmdb-note{
+    color:#666;
+    font-size:10px;
+    text-align:center;
+    padding:25px 15px 90px;
+    line-height:16px;
+}
+
+/* DESKTOP */
 
 @media(min-width:700px){
 
-  .content{
-    max-width:1200px;
-    margin:auto;
-  }
+    .header{
+        padding:0 30px;
+    }
 
-  .feature-area{
-    max-width:1200px;
-    margin:auto;
-  }
+    .search-area{
+        padding-top:18px;
+    }
 
-  .movie{
-    flex-basis:145px;
-  }
+    .hero{
+        height:420px;
+    }
 
-  .movie-poster{
-    width:145px;
-    height:215px;
-  }
+    .hero-card{
+        width:245px;
+        height:355px;
+    }
 
-  .feature{
-    height:340px;
-  }
+    .movie-card{
+        flex-basis:155px;
+    }
+
+    .poster{
+        width:155px;
+        height:225px;
+    }
+
+    .search-grid{
+        grid-template-columns:repeat(6,1fr);
+    }
+
+    .bottom-nav{
+        left:50%;
+        transform:translateX(-50%);
+        width:600px;
+        border:1px solid #222;
+        border-radius:15px 15px 0 0;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
-
 <header class="header">
-
-  <div class="logo">
-    MOVIE <span class="red">HUB</span>
-  </div>
-
-  <input
-    id="searchInput"
-    class="search-box"
-    type="text"
-    placeholder="Search movies..."
-    autocomplete="off"
-  >
-
+    <div class="logo">MOVIE <span>HUB</span> <small>MHD</small></div>
 </header>
 
+<div class="search-area">
+    <div class="search-box">
+        <input
+            id="searchInput"
+            type="search"
+            placeholder="Search movies..."
+            autocomplete="off">
+        <div class="search-icon">⌕</div>
+    </div>
+</div>
 
-<!-- ================= FEATURED ================= -->
+<main>
 
-<section class="feature-area">
+<!-- HOME -->
 
-  <div class="feature">
+<section id="homePage" class="page active">
 
-    <div
-      id="featureTrack"
-      class="feature-track">
+    <div id="homeLoading" class="loading">
+        <div class="spinner"></div>
+        Loading Movie Hub...
     </div>
 
-    <div
-      id="featureDots"
-      class="feature-dots">
+    <div id="homeContent" style="display:none;">
+
+        <section class="hero">
+            <div id="heroTrack" class="hero-track"></div>
+            <div id="heroTitle" class="hero-title"></div>
+        </section>
+
+        <div id="homeSections"></div>
+
+        <div class="tmdb-note">
+            This product uses the TMDB API but is not endorsed or certified by TMDB.
+        </div>
+
     </div>
 
-  </div>
+    <div id="homeError"></div>
 
 </section>
 
 
-<!-- ================= MOVIES ================= -->
+<!-- SEARCH -->
 
-<main
-  id="content"
-  class="content">
+<section id="searchPage" class="page">
 
-  <div class="loading">
+    <div class="section-header">
+        <div class="section-title">Search Results</div>
+    </div>
 
-    <div class="loader"></div>
+    <div id="searchLoading" class="loading" style="display:none;">
+        <div class="spinner"></div>
+        Searching...
+    </div>
 
-    <br>
+    <div id="searchResults" class="search-results"></div>
 
-    Loading movies...
+</section>
 
-  </div>
+
+<!-- TRENDING -->
+
+<section id="trendingPage" class="page">
+
+    <div class="section-header">
+        <div class="section-title">🔥 Trending Movies</div>
+    </div>
+
+    <div id="trendingContent"></div>
+
+</section>
+
+
+<!-- FAVORITES -->
+
+<section id="favoritesPage" class="page">
+
+    <div class="section-header">
+        <div class="section-title">❤️ Your Favorites</div>
+    </div>
+
+    <div id="favoritesContent" class="search-results"></div>
+
+</section>
 
 </main>
 
 
-<!-- ================= BOTTOM NAV ================= -->
+<!-- BOTTOM NAV -->
 
 <nav class="bottom-nav">
 
-  <button
-    id="homeButton"
-    class="nav active"
-    onclick="showHome()">
+    <button class="nav-btn active" data-page="homePage">
+        <span>⌂</span>
+        Home
+    </button>
 
-    <span class="nav-icon">⌂</span>
-    Home
+    <button class="nav-btn" data-page="searchPage">
+        <span>⌕</span>
+        Search
+    </button>
 
-  </button>
+    <button class="nav-btn" data-page="trendingPage">
+        <span>🔥</span>
+        Trending
+    </button>
 
-
-  <button
-    id="searchButton"
-    class="nav"
-    onclick="openSearch()">
-
-    <span class="nav-icon">⌕</span>
-    Search
-
-  </button>
-
-
-  <button
-    id="trendingButton"
-    class="nav"
-    onclick="showTrending()">
-
-    <span class="nav-icon">🔥</span>
-    Trending
-
-  </button>
-
-
-  <button
-    id="favoriteButton"
-    class="nav"
-    onclick="showFavorites()">
-
-    <span class="nav-icon">♥</span>
-    Your Favorites
-
-  </button>
+    <button class="nav-btn" data-page="favoritesPage">
+        <span>♥</span>
+        Favorites
+    </button>
 
 </nav>
 
 
-<!-- ================= DETAILS MODAL ================= -->
+<!-- DETAILS MODAL -->
 
-<div
-  id="detailsModal"
-  class="details-modal">
+<div id="detailsModal" class="modal">
 
-  <div class="details-page">
+    <button class="modal-close" onclick="closeDetails()">×</button>
 
-    <button
-      class="close-button"
-      onclick="closeDetails()">
-
-      ×
-
-    </button>
-
-
-    <div
-      id="detailsBackdrop"
-      class="details-backdrop">
-    </div>
-
-
-    <div class="details-content">
-
-      <div class="poster-info">
-
-        <img
-          id="detailsPoster"
-          class="big-poster"
-          src=""
-          alt=""
-        >
-
-
-        <div>
-
-          <div
-            id="detailsTitle"
-            class="details-title">
-          </div>
-
-
-          <div
-            id="detailsMeta"
-            class="details-meta">
-          </div>
-
-
-          <div
-            id="detailsRating"
-            class="details-rating">
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        id="detailsDescription"
-        class="description">
-      </div>
-
-
-      <div class="action-row">
-
-        <button
-          id="watchButton"
-          class="action-button watch-button"
-          style="display:none">
-
-          ▶ WATCH NOW
-
-        </button>
-
-
-        <button
-          id="favoriteMovieButton"
-          class="action-button favorite-button">
-
-          ♥ ADD TO FAVORITES
-
-        </button>
-
-      </div>
-
-
-      <div class="watch-section">
-
-        <h3>
-          Where to Watch in India
-        </h3>
-
-        <div
-          id="providers">
-        </div>
-
-      </div>
-
-
-      <div
-        id="reviewBox"
-        class="review-box">
-      </div>
-
-    </div>
-
-  </div>
+    <div id="detailsContent" class="details"></div>
 
 </div>
 
@@ -727,725 +780,354 @@ button{
 <script>
 
 /* =====================================================
-   IMPORTANT:
-   এখানে তোমার আগের WORKING TMDB V3 API KEY বসাও
-===================================================== */
+   1. PUT YOUR TMDB V3 API KEY HERE
+   ===================================================== */
 
 const API_KEY = "b28b49facbe85228205dcbec20a1c8a1";
 
 
-const TMDB =
-  "https://api.themoviedb.org/3";
+/* =====================================================
+   2. BASIC SETTINGS
+   ===================================================== */
 
-const POSTER =
-  "https://image.tmdb.org/t/p/w500";
+const IMAGE = "https://image.tmdb.org/t/p/w500";
+const BACKDROP = "https://image.tmdb.org/t/p/w1280";
 
-const BACKDROP =
-  "https://image.tmdb.org/t/p/w1280";
+let heroMovies = [];
+let heroIndex = 0;
+let heroTimer = null;
 
-
-let featuredMovies = [];
-
-let currentSlide = 0;
-
-let sliderTimer = null;
-
-let favorites =
-  JSON.parse(
-    localStorage.getItem(
-      "MHD_FAVORITES"
-    ) || "[]"
-  );
+let favorites = JSON.parse(
+    localStorage.getItem("MHD_FAVORITES") || "[]"
+);
 
 
 /* =====================================================
-   API
-===================================================== */
+   3. ELEMENTS
+   ===================================================== */
 
-async function tmdb(path){
-
-  const separator =
-    path.includes("?")
-    ? "&"
-    : "?";
-
-
-  const url =
-    TMDB +
-    path +
-    separator +
-    "api_key=" +
-    encodeURIComponent(API_KEY);
+const homeLoading = document.getElementById("homeLoading");
+const homeContent = document.getElementById("homeContent");
+const homeError = document.getElementById("homeError");
+const heroTrack = document.getElementById("heroTrack");
+const heroTitle = document.getElementById("heroTitle");
+const homeSections = document.getElementById("homeSections");
 
 
-  const response =
-    await fetch(url);
+/* =====================================================
+   4. API FUNCTION
+   ===================================================== */
 
+async function api(url){
 
-  if(!response.ok){
+    if(
+        !API_KEY ||
+        API_KEY === "YOUR_TMDB_API_KEY" ||
+        API_KEY.includes("PASTE")
+    ){
+        throw new Error(
+            "TMDB API Key বসানো হয়নি। index.html-এর API_KEY জায়গায় তোমার TMDB V3 API Key বসাও।"
+        );
+    }
 
-    let message =
-      "TMDB API request failed.";
+    const separator = url.includes("?") ? "&" : "?";
+
+    const finalURL =
+        "https://api.themoviedb.org/3" +
+        url +
+        separator +
+        "api_key=" +
+        encodeURIComponent(API_KEY) +
+        "&language=en-US";
+
+    const controller = new AbortController();
+
+    const timer = setTimeout(
+        () => controller.abort(),
+        15000
+    );
 
     try{
 
-      const data =
-        await response.json();
+        const response = await fetch(
+            finalURL,
+            {
+                signal:controller.signal
+            }
+        );
 
-      if(data.status_message){
+        if(!response.ok){
 
-        message =
-          data.status_message;
+            let message =
+                "TMDB API error: " + response.status;
 
-      }
+            try{
+                const errorData = await response.json();
 
-    }catch(e){}
+                if(errorData.status_message){
+                    message = errorData.status_message;
+                }
 
+            }catch(e){}
 
-    throw new Error(message);
+            throw new Error(message);
+        }
 
-  }
+        return await response.json();
 
+    }finally{
 
-  return await response.json();
-
-}
-
-
-/* =====================================================
-   HTML SAFE
-===================================================== */
-
-function safe(text){
-
-  return String(
-    text || ""
-  ).replace(
-    /[&<>"']/g,
-    function(character){
-
-      return {
-
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#039;"
-
-      }[character];
+        clearTimeout(timer);
 
     }
-  );
-
 }
 
 
 /* =====================================================
-   CHECK API KEY
-===================================================== */
-
-function validKey(){
-
-  return (
-    API_KEY &&
-    API_KEY !== "YOUR_API_KEY_HERE" &&
-    API_KEY.length > 10
-  );
-
-}
-
-
-/* =====================================================
-   MOVIE CARD
-===================================================== */
+   5. MOVIE CARD
+   ===================================================== */
 
 function movieCard(movie){
 
-  const poster =
-    movie.poster_path
+    if(!movie){
+        return "";
+    }
 
-    ? POSTER +
-      movie.poster_path
+    const poster =
+        movie.poster_path
+        ? IMAGE + movie.poster_path
+        : "";
 
-    :
+    const title =
+        movie.title ||
+        movie.name ||
+        "Unknown Movie";
 
-      "https://via.placeholder.com/500x750/151515/777?text=No+Poster";
+    const rating =
+        Number(movie.vote_average || 0).toFixed(1);
 
+    const year =
+        movie.release_date
+        ? movie.release_date.substring(0,4)
+        : "";
 
-  const title =
-    movie.title ||
-    movie.name ||
-    "Unknown Movie";
+    if(!poster){
 
+        return `
+        <div class="movie-card"
+             onclick="openDetails(${movie.id})">
 
-  const year =
-    movie.release_date
-    ? movie.release_date.substring(0,4)
-    : "—";
+            <div class="poster">
+                <div style="
+                    width:100%;
+                    height:100%;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    color:#777;
+                    font-size:12px;
+                    padding:10px;
+                    text-align:center;
+                ">
+                    No Poster
+                </div>
 
+                <div class="rating">★ ${rating}</div>
+            </div>
 
-  const rating =
-    Number(
-      movie.vote_average || 0
-    ).toFixed(1);
+            <div class="movie-name">${escapeHTML(title)}</div>
 
+            <div class="movie-year">${year}</div>
 
-  return `
+        </div>
+        `;
+    }
 
-    <div
-      class="movie"
-      onclick="openMovie(${movie.id})">
+    return `
+    <div class="movie-card"
+         onclick="openDetails(${movie.id})">
 
-      <img
-        class="movie-poster"
-        src="${poster}"
-        loading="lazy"
-        alt="${safe(title)}"
-      >
+        <div class="poster">
 
-      <div class="movie-name">
+            <img
+                src="${poster}"
+                alt="${escapeHTML(title)}"
+                loading="lazy"
+                onerror="this.style.display='none'">
 
-        ${safe(title)}
+            <div class="rating">
+                ★ ${rating}
+            </div>
 
-      </div>
+        </div>
 
-      <div class="movie-info">
+        <div class="movie-name">
+            ${escapeHTML(title)}
+        </div>
 
-        ${year}
-
-        •
-
-        <span class="star">
-
-          ★ ${rating}
-
-        </span>
-
-      </div>
+        <div class="movie-year">
+            ${year}
+        </div>
 
     </div>
+    `;
+}
 
-  `;
+
+/* =====================================================
+   6. ESCAPE TEXT
+   ===================================================== */
+
+function escapeHTML(text){
+
+    return String(text || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
 
 }
 
 
 /* =====================================================
-   SECTION
-===================================================== */
+   7. SECTION
+   ===================================================== */
 
-function makeSection(
-  title,
-  movies
-){
+function createSection(title, movies){
 
-  if(
-    !movies ||
-    !movies.length
-  ){
+    if(!movies || !movies.length){
+        return "";
+    }
 
-    return "";
-
-  }
-
-
-  return `
-
+    return `
     <section class="section">
 
-      <div class="section-title">
+        <div class="section-header">
 
-        <h2>
-          ${title}
-        </h2>
+            <div class="section-title">
+                ${escapeHTML(title)}
+            </div>
 
-        <span>›</span>
+            <div class="see-all">
+                Swipe →
+            </div>
 
-      </div>
+        </div>
 
+        <div class="movie-row">
 
-      <div class="movie-row">
+            ${movies
+                .slice(0,15)
+                .map(movieCard)
+                .join("")}
 
-        ${movies
-          .map(movieCard)
-          .join("")}
-
-      </div>
+        </div>
 
     </section>
-
-  `;
-
+    `;
 }
 
 
 /* =====================================================
-   HOME
-===================================================== */
+   8. HOME DATA
+   ===================================================== */
 
 async function loadHome(){
 
-  setNav("homeButton");
-
-
-  if(!validKey()){
-
-    showError(
-      "TMDB API Key বসানো হয়নি। " +
-      "Code-এর উপরে YOUR_API_KEY_HERE-এর জায়গায় " +
-      "তোমার আগের working TMDB V3 API Key বসাও।"
-    );
-
-    return;
-
-  }
-
-
-  showLoading();
-
-
-  try{
-
-    const results =
-      await Promise.all([
-
-        tmdb(
-          "/trending/movie/week"
-        ),
-
-        tmdb(
-          "/discover/movie" +
-          "?with_original_language=en" +
-          "&sort_by=popularity.desc" +
-          "&page=1"
-        ),
-
-        tmdb(
-          "/discover/movie" +
-          "?with_original_language=hi" +
-          "&region=IN" +
-          "&sort_by=popularity.desc" +
-          "&page=1"
-        ),
-
-        tmdb(
-          "/discover/movie" +
-          "?with_origin_country=IN" +
-          "&region=IN" +
-          "&sort_by=popularity.desc" +
-          "&page=1"
-        ),
-
-        tmdb(
-          "/discover/movie" +
-          "?with_origin_country=IN" +
-          "&region=IN" +
-          "&sort_by=vote_average.desc" +
-          "&vote_count.gte=200" +
-          "&page=1"
-        ),
-
-        tmdb(
-          "/movie/top_rated" +
-          "?region=US&page=1"
-        )
-
-      ]);
-
-
-    const trending =
-      results[0].results || [];
-
-
-    const hollywood =
-      results[1].results || [];
-
-
-    const bollywood =
-      results[2].results || [];
-
-
-    const indian =
-      results[3].results || [];
-
-
-    const indianTop =
-      results[4].results || [];
-
-
-    const hollywoodTop =
-      results[5].results || [];
-
-
-    featuredMovies =
-      trending.slice(0,10);
-
-
-    createFeatured();
-
-
-    document.getElementById(
-      "content"
-    ).innerHTML =
-
-      makeSection(
-        "🔥 Trending Movies",
-        trending
-      ) +
-
-      makeSection(
-        "🎬 Hollywood Trending Movies",
-        hollywood
-      ) +
-
-      makeSection(
-        "🇮🇳 Bollywood Trending Movies",
-        bollywood
-      ) +
-
-      makeSection(
-        "🇮🇳 Indian Today's Trending Movies",
-        indian
-      ) +
-
-      makeSection(
-        "⭐ Top IMDb Rated Indian Movies",
-        indianTop
-      ) +
-
-      makeSection(
-        "🏆 Top IMDb Rated Hollywood Movies",
-        hollywoodTop
-      );
-
-
-  }catch(error){
-
-    showError(
-      "Movie load হয়নি.<br><br>" +
-      "<b>TMDB Error:</b> " +
-      safe(error.message)
-    );
-
-  }
-
-}
-
-
-/* =====================================================
-   FEATURED SLIDER
-===================================================== */
-
-function createFeatured(){
-
-  const track =
-    document.getElementById(
-      "featureTrack"
-    );
-
-
-  const dots =
-    document.getElementById(
-      "featureDots"
-    );
-
-
-  clearInterval(
-    sliderTimer
-  );
-
-
-  if(!featuredMovies.length){
-
-    track.innerHTML = "";
-
-    dots.innerHTML = "";
-
-    return;
-
-  }
-
-
-  track.innerHTML =
-    featuredMovies
-      .map(
-        function(movie){
-
-          const image =
-            movie.backdrop_path
-
-            ? BACKDROP +
-              movie.backdrop_path
-
-            :
-
-              movie.poster_path
-
-              ? POSTER +
-                movie.poster_path
-
-              : "";
-
-
-          return `
-
-            <div
-              class="feature-item"
-              style="
-                background-image:
-                url('${image}')
-              "
-              onclick="
-                openMovie(${movie.id})
-              ">
-
-              <div
-                class="feature-text">
-
-                <div
-                  class="feature-title">
-
-                  ${safe(movie.title)}
-
-                </div>
-
-                <div
-                  class="feature-info">
-
-                  ★
-                  ${Number(
-                    movie.vote_average || 0
-                  ).toFixed(1)}
-
-                  •
-
-                  ${
-                    movie.release_date
-                    ? movie.release_date
-                        .substring(0,4)
-                    : ""
-                  }
-
-                </div>
-
-              </div>
-
-            </div>
-
-          `;
-
-        }
-      )
-      .join("");
-
-
-  dots.innerHTML =
-    featuredMovies
-      .map(
-        function(movie,index){
-
-          return `
-
-            <span
-              class="
-                feature-dot
-                ${
-                  index === 0
-                  ? "active"
-                  : ""
-                }
-              ">
-
-            </span>
-
-          `;
-
-        }
-      )
-      .join("");
-
-
-  currentSlide = 0;
-
-
-  sliderTimer =
-    setInterval(
-
-      function(){
-
-        currentSlide++;
-
-        if(
-          currentSlide >=
-          featuredMovies.length
-        ){
-
-          currentSlide = 0;
-
-        }
-
-
-        track.style.transform =
-          "translateX(-" +
-          (
-            currentSlide * 100
-          ) +
-          "%)";
-
-
-        const allDots =
-          document.querySelectorAll(
-            ".feature-dot"
-          );
-
-
-        allDots.forEach(
-          function(dot,index){
-
-            dot.classList.toggle(
-              "active",
-              index === currentSlide
-            );
-
-          }
-        );
-
-
-      },
-
-      3000
-
-    );
-
-}
-
-
-/* =====================================================
-   SEARCH
-===================================================== */
-
-let searchTimeout;
-
-
-document
-  .getElementById(
-    "searchInput"
-  )
-  .addEventListener(
-    "input",
-    function(event){
-
-      clearTimeout(
-        searchTimeout
-      );
-
-
-      const query =
-        event.target.value.trim();
-
-
-      searchTimeout =
-        setTimeout(
-          function(){
-
-            if(
-              query.length < 2
-            ){
-
-              loadHome();
-
-              return;
-
-            }
-
-
-            searchMovies(
-              query
-            );
-
-          },
-          400
-        );
-
-    }
-  );
-
-
-async function searchMovies(
-  query
-){
-
-  setNav("searchButton");
-
-
-  if(!validKey()){
-
-    showError(
-      "API Key বসানো হয়নি।"
-    );
-
-    return;
-
-  }
-
-
-  showLoading();
-
-
-  try{
-
-    const data =
-      await tmdb(
-        "/search/movie" +
-        "?query=" +
-        encodeURIComponent(
-          query
-        ) +
-        "&include_adult=false" +
-        "&page=1"
-      );
-
-
-    const movies =
-      data.results || [];
-
-
-    document.getElementById(
-      "content"
-    ).innerHTML =
-
-      movies.length
-
-      ?
-
-        makeSection(
-          "🔎 Search Results",
-          movies
-        )
-
-      :
-
-        `
-
-          <div class="empty">
-
-            No movies found.
-
-          </div>
-
-        `;
-
-
-  }catch(error){
-
-    showError(
-      "Search failed.<br><br>" +
-      safe(error.message)
-    );
-
-  }
-
-}
-
-
-/* ===================================================
+    homeLoading.style.display = "block";
+    homeContent.style.display = "none";
+    homeError.innerHTML = "";
+
+    try{
+
+        const [
+            trending,
+            hollywood,
+            bollywood,
+            bengali,
+            telugu,
+            tamil,
+            malayalam,
+            kannada,
+            indian,
+            indianTop,
+            hollywoodTop
+        ] = await Promise.all([
+
+            api("/trending/movie/day"),
+
+            api(
+                "/discover/movie" +
+                "?with_origin_country=US" +
+                "&sort_by=popularity.desc" +
+                "&vote_count.gte=50" +
+                "&page=1"
+            ),
+
+            api(
+                "/discover/movie" +
+                "?with_original_language=hi" +
+                "&with_origin_country=IN" +
+                "&sort_by=popularity.desc" +
+                "&page=1"
+            ),
+
+            api(
+                "/discover/movie" +
+                "?with_original_language=bn" +
+                "&with_origin_country=IN" +
+                "&sort_by=popularity.desc" +
+                "&page=1"
+            ),
+
+            api(
+                "/discover/movie" +
+                "?with_original_language=te" +
+                "&with_origin_country=IN" +
+                "&sort_by=popularity.desc" +
+                "&page=1"
+            ),
+
+            api(
+                "/discover/movie" +
+                "?with_original_language=ta" +
+                "&with_origin_country=IN" +
+                "&sort_by=popularity.desc" +
+                "&page=1"
+            ),
+
+            api(
+                "/discover/movie" +
+                "?with_original_language=ml" +
+                "&with_origin_country=IN" +
+                "&sort_by=popularity.desc" +
+                "&page=1"
+            ),
+
+            api(
+                "/discover/movie" +
+                "?with_original_language=kn" +
+                "&with_origin_country=IN" +
+                "&sort_by=popularity.desc" +
+                "&page=1"
+            ),
+
+            api(
+                "/discover/movie" +
+                "?with_origin_country=IN" +
+                "&sort_by=popularity.desc" +
+                "&page=1"
+            ),
+
+            api(
+                "/discover/movie" +
+                "?with_origin_country=IN" +
+                "&sort_by=vote_average.desc" +
+                "&vote_count.gte=300" +
+                "&page=1"
+            ),
+
+            api(
+                "/discover/movie" +
+                "
