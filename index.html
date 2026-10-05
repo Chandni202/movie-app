@@ -1,778 +1,477 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MHD - Movie Hub</title>
+<title>MHD - Movie Hub</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
 
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background: #080808;
-            color: #ffffff;
-            padding-bottom: 80px;
-        }
+body{
+  font-family:Arial,sans-serif;
+  background:#080808;
+  color:white;
+}
 
-        /* HEADER */
-        header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(8, 8, 8, 0.96);
-            border-bottom: 1px solid #222;
-            padding: 17px 18px;
-        }
+header{
+  position:sticky;
+  top:0;
+  z-index:100;
+  background:#0d0d0d;
+  padding:16px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #222;
+}
 
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+.logo{
+  font-size:28px;
+  font-weight:bold;
+  color:#e50914;
+  letter-spacing:2px;
+}
 
-        .logo {
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: 2px;
-        }
+.menu{
+  color:#aaa;
+  font-size:14px;
+}
 
-        .logo span {
-            color: #e50914;
-        }
+.hero{
+  min-height:330px;
+  padding:55px 25px;
+  display:flex;
+  align-items:center;
+  background:
+    linear-gradient(90deg,#080808 20%,rgba(8,8,8,.65),rgba(8,8,8,.1)),
+    url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1600&q=80")
+    center/cover;
+}
 
-        .menu {
-            font-size: 25px;
-            color: #ffffff;
-        }
+.hero h1{
+  font-size:42px;
+  margin-bottom:12px;
+}
 
-        /* HERO */
-        .hero {
-            margin: 18px;
-            min-height: 360px;
-            border-radius: 18px;
-            overflow: hidden;
-            position: relative;
+.hero p{
+  color:#ccc;
+  max-width:500px;
+  line-height:1.6;
+}
 
-            background:
-                linear-gradient(
-                    to top,
-                    #080808 5%,
-                    rgba(8, 8, 8, 0.45) 55%,
-                    rgba(8, 8, 8, 0.1)
-                ),
-                url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1200&q=85");
+.search-area{
+  padding:20px;
+}
 
-            background-size: cover;
-            background-position: center;
-        }
+.search-box{
+  width:100%;
+  padding:15px 18px;
+  border:none;
+  outline:none;
+  border-radius:30px;
+  background:#191919;
+  color:white;
+  font-size:16px;
+}
 
-        .hero-content {
-            position: absolute;
-            bottom: 25px;
-            left: 20px;
-            right: 20px;
-        }
+.search-box::placeholder{
+  color:#888;
+}
 
-        .hero-tag {
-            display: inline-block;
-            background: #e50914;
-            padding: 5px 9px;
-            border-radius: 5px;
-            font-size: 11px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
+.section{
+  padding:10px 20px 30px;
+}
 
-        .hero h1 {
-            font-size: 31px;
-            line-height: 1.1;
-            margin-bottom: 9px;
-        }
+.section-title{
+  font-size:24px;
+  margin-bottom:18px;
+}
 
-        .hero-info {
-            color: #c7c7c7;
-            font-size: 13px;
-            margin-bottom: 13px;
-        }
+.movie-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:16px;
+}
 
-        .hero-description {
-            color: #d0d0d0;
-            font-size: 13px;
-            line-height: 1.5;
-            margin-bottom: 17px;
-        }
+.movie-card{
+  background:#141414;
+  border-radius:12px;
+  overflow:hidden;
+  transition:.2s;
+}
 
-        .watch-button {
-            display: inline-block;
-            text-decoration: none;
-            background: #e50914;
-            color: white;
-            padding: 12px 18px;
-            border-radius: 7px;
-            font-size: 14px;
-            font-weight: bold;
-        }
+.movie-card:hover{
+  transform:translateY(-4px);
+}
 
-        /* SEARCH */
-        .search-area {
-            padding: 2px 18px 20px;
-        }
+.movie-card img{
+  width:100%;
+  aspect-ratio:2/3;
+  object-fit:cover;
+  display:block;
+}
 
-        .search-box {
-            width: 100%;
-            padding: 15px 16px;
-            background: #171717;
-            border: 1px solid #292929;
-            border-radius: 10px;
-            outline: none;
-            color: white;
-            font-size: 15px;
-        }
+.movie-info{
+  padding:12px;
+}
 
-        .search-box::placeholder {
-            color: #858585;
-        }
+.movie-title{
+  font-size:16px;
+  font-weight:bold;
+  margin-bottom:8px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 
-        /* SECTION */
-        .section {
-            margin-bottom: 30px;
-        }
+.movie-meta{
+  color:#aaa;
+  font-size:13px;
+}
 
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 18px;
-            margin-bottom: 14px;
-        }
+.rating{
+  color:#ffd700;
+}
 
-        .section-title {
-            font-size: 21px;
-            font-weight: 800;
-        }
+.watch-btn{
+  display:block;
+  margin-top:10px;
+  padding:10px;
+  text-align:center;
+  background:#e50914;
+  color:white;
+  text-decoration:none;
+  border-radius:7px;
+  font-weight:bold;
+  font-size:14px;
+}
 
-        .see-all {
-            color: #e50914;
-            font-size: 12px;
-            font-weight: bold;
-        }
+#loading{
+  text-align:center;
+  padding:30px;
+  color:#aaa;
+}
 
-        /* MOVIE GRID */
-        .movie-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            padding: 0 18px;
-        }
+#error{
+  text-align:center;
+  padding:20px;
+  color:#ff5555;
+  display:none;
+}
 
-        .movie-card {
-            background: #141414;
-            border-radius: 11px;
-            overflow: hidden;
-            border: 1px solid #242424;
-            transition: transform 0.2s;
-        }
+.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  background:#111;
+  border-top:1px solid #222;
+  display:flex;
+  justify-content:space-around;
+  padding:12px 5px;
+  z-index:100;
+}
 
-        .movie-card:active {
-            transform: scale(0.97);
-        }
+.bottom-nav div{
+  color:#aaa;
+  font-size:12px;
+  text-align:center;
+}
 
-        .poster {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            display: block;
-        }
+.bottom-nav .active{
+  color:#e50914;
+}
 
-        .movie-details {
-            padding: 11px;
-        }
+@media(min-width:700px){
+  .movie-grid{
+    grid-template-columns:repeat(5,1fr);
+  }
 
-        .movie-title {
-            font-size: 15px;
-            font-weight: bold;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 7px;
-        }
+  .hero{
+    min-height:450px;
+    padding-left:60px;
+  }
 
-        .movie-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: #929292;
-            font-size: 12px;
-        }
+  .hero h1{
+    font-size:58px;
+  }
+}
 
-        .rating {
-            color: #ffc107;
-            font-weight: bold;
-        }
-
-        /* CATEGORIES */
-        .categories {
-            display: flex;
-            gap: 9px;
-            overflow-x: auto;
-            padding: 0 18px;
-            scrollbar-width: none;
-        }
-
-        .categories::-webkit-scrollbar {
-            display: none;
-        }
-
-        .category {
-            flex-shrink: 0;
-            padding: 9px 15px;
-            background: #171717;
-            border: 1px solid #292929;
-            border-radius: 20px;
-            color: #bdbdbd;
-            font-size: 12px;
-        }
-
-        .category.active {
-            background: #e50914;
-            border-color: #e50914;
-            color: white;
-        }
-
-        /* BOTTOM NAVIGATION */
-        .bottom-nav {
-            position: fixed;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            height: 68px;
-            background: rgba(15, 15, 15, 0.98);
-            border-top: 1px solid #282828;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            z-index: 200;
-        }
-
-        .nav-item {
-            text-align: center;
-            color: #777;
-            font-size: 10px;
-        }
-
-        .nav-icon {
-            display: block;
-            font-size: 21px;
-            margin-bottom: 4px;
-        }
-
-        .nav-item.active {
-            color: #e50914;
-        }
-
-        /* EMPTY SEARCH */
-        #noResults {
-            display: none;
-            text-align: center;
-            padding: 30px 18px;
-            color: #888;
-        }
-
-        /* DESKTOP */
-        @media (min-width: 700px) {
-
-            .movie-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
-            .hero {
-                min-height: 500px;
-            }
-
-            .poster {
-                height: 330px;
-            }
-        }
-    </style>
+@media(min-width:1100px){
+  .movie-grid{
+    grid-template-columns:repeat(6,1fr);
+  }
+}
+</style>
 </head>
-
 
 <body>
 
-    <!-- HEADER -->
+<header>
+  <div class="logo">MHD</div>
+  <div class="menu">MOVIE HUB</div>
+</header>
 
-    <header>
+<section class="hero">
+  <div>
+    <h1>Welcome to MHD</h1>
+    <p>
+      Discover trending movies, ratings, posters and movie information.
+    </p>
+  </div>
+</section>
 
-        <div class="header-content">
+<div class="search-area">
+  <input
+    id="searchInput"
+    class="search-box"
+    type="text"
+    placeholder="🔍 Search movies..."
+    onkeyup="searchMovies()"
+  >
+</div>
 
-            <div class="logo">
-                M<span>H</span>D
-            </div>
+<section class="section">
 
-            <div class="menu">
-                ☰
-            </div>
+  <div class="section-title">🔥 Trending Movies</div>
 
-        </div>
+  <div id="loading">Loading movies...</div>
 
-    </header>
+  <div id="error">
+    Unable to load movies. Please check your API key.
+  </div>
 
+  <div id="movieGrid" class="movie-grid"></div>
 
-    <!-- HERO -->
+</section>
 
-    <section class="hero">
+<section class="section">
+  <div class="section-title">🎬 About MHD</div>
+  <p style="color:#aaa;line-height:1.6;">
+    MHD is a movie discovery website powered by TMDB.
+    Movie information and images are provided by TMDB.
+  </p>
+</section>
 
-        <div class="hero-content">
+<div class="bottom-nav">
+  <div class="active">🏠<br>Home</div>
+  <div>🔍<br>Search</div>
+  <div>🔥<br>Trending</div>
+  <div>❤️<br>Favorites</div>
+</div>
 
-            <div class="hero-tag">
-                #1 MOVIE HUB
-            </div>
+<script>
 
-            <h1>
-                Discover Your<br>
-                Next Movie
-            </h1>
+/* ==============================
+   PUT YOUR TMDB API KEY HERE
+   ============================== */
 
-            <div class="hero-info">
-                ⭐ 8.7 &nbsp; • &nbsp; 2026 &nbsp; • &nbsp; Action
-            </div>
+const API_KEY =b28b49facbe85228205dcbec20a1c8a1
 
-            <p class="hero-description">
-                Explore trending movies, popular films and
-                unforgettable stories all in one place.
-            </p>
+const API_URL =
+  "https://api.themoviedb.org/3/trending/movie/day?api_key="
+  + API_KEY
+  + "&language=en-US";
 
-            <a href="#trending" class="watch-button">
-                ▶ Explore Now
-            </a>
 
-        </div>
+async function loadMovies(){
 
-    </section>
+  const loading = document.getElementById("loading");
+  const error = document.getElementById("error");
+  const grid = document.getElementById("movieGrid");
 
+  try{
 
-    <!-- SEARCH -->
+    const response = await fetch(API_URL);
 
-    <div class="search-area">
+    if(!response.ok){
+      throw new Error("API error");
+    }
 
-        <input
-            id="searchInput"
-            class="search-box"
-            type="text"
-            placeholder="🔍 Search movies..."
-            onkeyup="searchMovies()"
-        >
+    const data = await response.json();
 
-    </div>
+    loading.style.display = "none";
 
+    grid.innerHTML = "";
 
-    <!-- CATEGORIES -->
+    data.results.forEach(movie => {
 
-    <section class="section">
+      if(!movie.poster_path) return;
 
-        <div class="section-header">
+      const card = document.createElement("div");
 
-            <div class="section-title">
-                Genres
-            </div>
+      card.className = "movie-card";
 
-        </div>
+      const poster =
+        "https://image.tmdb.org/t/p/w500"
+        + movie.poster_path;
 
-        <div class="categories">
-
-            <div class="category active">
-                All
-            </div>
-
-            <div class="category">
-                Action
-            </div>
-
-            <div class="category">
-                Thriller
-            </div>
-
-            <div class="category">
-                Drama
-            </div>
-
-            <div class="category">
-                Comedy
-            </div>
-
-            <div class="category">
-                Sci-Fi
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- TRENDING -->
-
-    <section class="section" id="trending">
-
-        <div class="section-header">
-
-            <div class="section-title">
-                🔥 Trending
-            </div>
-
-            <div class="see-all">
-                SEE ALL
-            </div>
-
-        </div>
-
-
-        <div class="movie-grid">
-
-
-            <!-- MOVIE 1 -->
-
-            <div class="movie-card">
-
-                <img
-                    class="poster"
-                    src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=85"
-                    alt="Movie"
-                >
-
-                <div class="movie-details">
-
-                    <div class="movie-title">
-                        Dark Horizon
-                    </div>
-
-                    <div class="movie-meta">
-
-                        <span class="rating">
-                            ⭐ 8.7
-                        </span>
-
-                        <span>
-                            2026
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- MOVIE 2 -->
-
-            <div class="movie-card">
-
-                <img
-                    class="poster"
-                    src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=600&q=85"
-                    alt="Movie"
-                >
-
-                <div class="movie-details">
-
-                    <div class="movie-title">
-                        Last Mission
-                    </div>
-
-                    <div class="movie-meta">
-
-                        <span class="rating">
-                            ⭐ 8.5
-                        </span>
-
-                        <span>
-                            2026
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- MOVIE 3 -->
-
-            <div class="movie-card">
-
-                <img
-                    class="poster"
-                    src="https://images.unsplash.com/photo-1440404653325-ab127d49abc1?auto=format&fit=crop&w=600&q=85"
-                    alt="Movie"
-                >
-
-                <div class="movie-details">
-
-                    <div class="movie-title">
-                        Lost In Time
-                    </div>
-
-                    <div class="movie-meta">
-
-                        <span class="rating">
-                            ⭐ 8.3
-                        </span>
-
-                        <span>
-                            2025
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <!-- MOVIE 4 -->
-
-            <div class="movie-card">
-
-                <img
-                    class="poster"
-                    src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=85"
-                    alt="Movie"
-                >
-
-                <div class="movie-details">
-
-                    <div class="movie-title">
-                        Midnight Story
-                    </div>
-
-                    <div class="movie-meta">
-
-                        <span class="rating">
-                            ⭐ 8.1
-                        </span>
-
-                        <span>
-                            2025
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </section>
-
-
-    <!-- POPULAR -->
-
-    <section class="section">
-
-        <div class="section-header">
-
-            <div class="section-title">
-                🎬 Popular Movies
-            </div>
-
-            <div class="see-all">
-                SEE ALL
-            </div>
-
-        </div>
-
-
-        <div class="movie-grid">
-
-
-            <div class="movie-card">
-
-                <img
-                    class="poster"
-                    src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=85"
-                    alt="Movie"
-                >
-
-                <div class="movie-details">
-
-                    <div class="movie-title">
-                        The Journey
-                    </div>
-
-                    <div class="movie-meta">
-
-                        <span class="rating">
-                            ⭐ 8.9
-                        </span>
-
-                        <span>
-                            2025
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div class="movie-card">
-
-                <img
-                    class="poster"
-                    src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=600&q=85"
-                    alt="Movie"
-                >
-
-                <div class="movie-details">
-
-                    <div class="movie-title">
-                        Final Night
-                    </div>
-
-                    <div class="movie-meta">
-
-                        <span class="rating">
-                            ⭐ 8.6
-                        </span>
-
-                        <span>
-                            2024
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </section>
-
-
-    <div id="noResults">
-        😔 No movies found
-    </div>
-
-
-    <!-- BOTTOM NAVIGATION -->
-
-    <nav class="bottom-nav">
-
-        <div class="nav-item active">
-
-            <span class="nav-icon">
-                🏠
+      const year =
+        movie.release_date
+        ? movie.release_date.substring(0,4)
+        : "N/A";
+
+      const rating =
+        movie.vote_average
+        ? movie.vote_average.toFixed(1)
+        : "N/A";
+
+      card.innerHTML = `
+        <img src="${poster}" alt="${movie.title}">
+
+        <div class="movie-info">
+
+          <div class="movie-title">
+            ${movie.title}
+          </div>
+
+          <div class="movie-meta">
+            ${year} •
+            <span class="rating">
+              ⭐ ${rating}
             </span>
+          </div>
 
-            Home
+          <a
+            class="watch-btn"
+            href="https://www.google.com/search?q=${encodeURIComponent(movie.title + " watch online")}"
+            target="_blank">
+            Watch Now
+          </a>
 
         </div>
+      `;
+
+      grid.appendChild(card);
+
+    });
+
+  }catch(err){
+
+    loading.style.display = "none";
+    error.style.display = "block";
+
+    console.error(err);
+
+  }
+
+}
 
 
-        <div class="nav-item">
+async function searchMovies(){
 
-            <span class="nav-icon">
-                🔍
+  const query =
+    document.getElementById("searchInput").value.trim();
+
+  const grid =
+    document.getElementById("movieGrid");
+
+  const error =
+    document.getElementById("error");
+
+  if(query === ""){
+    loadMovies();
+    return;
+  }
+
+  try{
+
+    const url =
+      "https://api.themoviedb.org/3/search/movie"
+      + "?api_key=" + API_KEY
+      + "&language=en-US"
+      + "&query=" + encodeURIComponent(query)
+      + "&include_adult=false"
+      + "&page=1";
+
+    const response = await fetch(url);
+
+    if(!response.ok){
+      throw new Error("Search error");
+    }
+
+    const data = await response.json();
+
+    grid.innerHTML = "";
+
+    data.results.forEach(movie => {
+
+      if(!movie.poster_path) return;
+
+      const card =
+        document.createElement("div");
+
+      card.className = "movie-card";
+
+      const poster =
+        "https://image.tmdb.org/t/p/w500"
+        + movie.poster_path;
+
+      const year =
+        movie.release_date
+        ? movie.release_date.substring(0,4)
+        : "N/A";
+
+      const rating =
+        movie.vote_average
+        ? movie.vote_average.toFixed(1)
+        : "N/A";
+
+      card.innerHTML = `
+        <img src="${poster}" alt="${movie.title}">
+
+        <div class="movie-info">
+
+          <div class="movie-title">
+            ${movie.title}
+          </div>
+
+          <div class="movie-meta">
+            ${year} •
+            <span class="rating">
+              ⭐ ${rating}
             </span>
+          </div>
 
-            Search
-
-        </div>
-
-
-        <div class="nav-item">
-
-            <span class="nav-icon">
-                🔥
-            </span>
-
-            Trending
+          <a
+            class="watch-btn"
+            href="https://www.google.com/search?q=${encodeURIComponent(movie.title + " watch online")}"
+            target="_blank">
+            Watch Now
+          </a>
 
         </div>
+      `;
+
+      grid.appendChild(card);
+
+    });
+
+    if(data.results.length === 0){
+      grid.innerHTML =
+        '<p style="color:#aaa;">No movies found.</p>';
+    }
+
+  }catch(err){
+
+    error.style.display = "block";
+
+    console.error(err);
+
+  }
+
+}
 
 
-        <div class="nav-item">
+loadMovies();
 
-            <span class="nav-icon">
-                ⭐
-            </span>
-
-            Favorites
-
-        </div>
-
-    </nav>
-
-
-    <!-- SEARCH FUNCTION -->
-
-    <script>
-
-        function searchMovies() {
-
-            let input =
-                document
-                .getElementById("searchInput")
-                .value
-                .toLowerCase();
-
-            let movies =
-                document
-                .querySelectorAll(".movie-card");
-
-            let found = false;
-
-            movies.forEach(function(movie) {
-
-                let title =
-                    movie
-                    .querySelector(".movie-title")
-                    .innerText
-                    .toLowerCase();
-
-                if (title.includes(input)) {
-
-                    movie.style.display = "block";
-
-                    found = true;
-
-                } else {
-
-                    movie.style.display = "none";
-
-                }
-
-            });
-
-
-            let noResults =
-                document.getElementById("noResults");
-
-            if (!found && input !== "") {
-
-                noResults.style.display = "block";
-
-            } else {
-
-                noResults.style.display = "none";
-
-            }
-
-        }
-
-    </script>
+</script>
 
 </body>
-
 </html>
